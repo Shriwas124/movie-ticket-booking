@@ -5,6 +5,7 @@ import com.example.mtb.entity.UserDetails;
 
 import com.example.mtb.serviceimpl.UserServiceImpl;
 import com.example.mtb.utility.ResponseStructure;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/register")
+@AllArgsConstructor
 public class UserController {
 
-    private  UserServiceImpl userService;
+    private final UserServiceImpl userService;
 
     @PostMapping("/user")
     public ResponseEntity<ResponseStructure<UserDetails>> adduserDetails(UserDetails userDetails){
