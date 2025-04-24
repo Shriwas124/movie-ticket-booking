@@ -42,5 +42,13 @@ public class RestResponseBuilder {
                 .build();
         return ResponseEntity.ok(responseStructure);
     }
-}
 
+    public <T> ResponseEntity<ResponseStructure<T>> sucess(HttpStatus statusCode, String message, T data) {
+        return ResponseEntity.status(statusCode).body(ResponseStructure.<T>builder()
+                .status(statusCode.value())
+                .message(message)
+                .data(data)
+                .build());
+    }
+
+}
