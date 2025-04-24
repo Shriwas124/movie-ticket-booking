@@ -1,20 +1,21 @@
 package com.example.mtb.exception;
 
+import com.example.mtb.utility.FieldErrorStructure;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
+import lombok.ToString;
+import org.springframework.http.*;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
+@ControllerAdvice
 public class FieldErrorExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
@@ -24,11 +25,15 @@ public class FieldErrorExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatusCode status,
             WebRequest request) {
 
-        List<CustomFieldError> fieldErrors = new ArrayList<>();
+        List<ObjectError> errors = ex.getBindingResult().getAllErrors();
 
-        for (ObjectError objectError : ex.getAllErrors()) {
-            if (objectError instanceof FieldError fieldError) {
-                fieldErrors.add(
+        List<CustomFieldError> customFieldErrors= new LinkedList<>();
+
+
+
+        for (ObjectError error : errors) {
+            if (error instanceof FieldError fieldError) {
+                customFieldErrors.add(
                         CustomFieldError.builder()
                                 .field(fieldError.getField())
                                 .rejectedvalue(fieldError.getRejectedValue())
@@ -37,29 +42,26 @@ public class FieldErrorExceptionHandler extends ResponseEntityExceptionHandler {
                 );
             }
         }
-
-        ErrorResponseStructure response = ErrorResponseStructure.builder()
-                .status(HttpStatus.BAD_REQUEST.value())
-                .message("Validation failed")
-                .errors(fieldErrors)
+FieldErrorStructure<List<CustomFieldError>> errorResponse =
+        FieldErrorStructure.<List<CustomFieldError>>builder()
+                .statuscode(HttpStatus.BAD_REQUEST.value())
+                .errorMessage("Inavlid input")
+                .data(customFieldErrors)
                 .build();
 
-        return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+ return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+         .contentType(MediaType.APPLICATION_JSON)
+         .body(errorResponse);
     }
 
     @Builder
     @Getter
+    @ToString
     public static class CustomFieldError {
         String field;
         Object rejectedvalue;
         String errorMessage;
     }
 
-    @Builder
-    @Getter
-    public static class ErrorResponseStructure {
-        int status;
-        String message;
-        List<CustomFieldError> errors;
-    }
+
 }
