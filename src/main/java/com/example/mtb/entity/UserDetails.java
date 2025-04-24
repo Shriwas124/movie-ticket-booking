@@ -5,29 +5,40 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.web.WebProperties;
-import static com.example.mtb.enums.UserRoles.THEATER_OWNER;
+import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
-@Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class UserDetails  {
+@ToString
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String userId;
-    private  String username;
-    private  String email;
+    private String username;
+    private String email;
     private String password;
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     @NotNull
     private UserRoles userRoles;
     private LocalDate dateofbirth;
-    private  long createdAt;
+    private long createdAt;
     private long updatedAt;
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt != null ? createdAt.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli() : null;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt != null ? updatedAt.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli() : null;
+    }
 
 }

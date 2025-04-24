@@ -13,22 +13,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/register")
 @AllArgsConstructor
 public class UserController {
 
     private final UserServiceImpl userService;
 
-    @PostMapping("/user")
+    @PostMapping("/register")
     public ResponseEntity<ResponseStructure<UserRegisterResponse>> addUserDetails( @Valid @RequestBody UserRegisterRequest userDetails) {
         UserRegisterResponse savedUser = userService.addUserDetails(userDetails);
-        return  RestResponseBuilder.create(HttpStatus.CREATED ,"user object created",savedUser );
+         return RestResponseBuilder.create("UserDetail Created", savedUser, 201);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseStructure<UserRegisterResponse>> updating(@Valid @RequestBody UserRequest request, String email){
+    public ResponseEntity<ResponseStructure<UserRegisterResponse>> updating(@Valid @RequestBody String email,UserRequest request){
         UserRegisterResponse update = userService.updating(request,email);
-        return  RestResponseBuilder.update(HttpStatus.OK,"user object updated",update);
+        return RestResponseBuilder.update("User profile updated successfully",update,200);
 
     }
 }

@@ -5,6 +5,7 @@ import com.example.mtb.enums.UserRoles;
 import java.time.LocalDate;
 
 public record UserRequest(String username,
+    String email,
     String phoneNumber,
     LocalDate dateofBirth,
         UserRoles userRoles
