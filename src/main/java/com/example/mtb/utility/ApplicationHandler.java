@@ -1,6 +1,9 @@
 package com.example.mtb.utility;
 
-import com.example.mtb.exception.UserDetailsNotFoundException;
+
+import com.example.mtb.exception.UserExistByEmailException;
+import com.example.mtb.utility.ErrorStructure;
+import com.example.mtb.utility.ResponseStructure;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,12 +13,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ApplicationHandler {
 
     @ExceptionHandler
-    public ResponseEntity<ErrorStructure<String>> handleUserDetailNotFoundException(UserDetailsNotFoundException ex) {
-        ErrorStructure<String> errorStructure = new ErrorStructure<>();
-        errorStructure.setErrorstatus(HttpStatus.NOT_FOUND.value());
-        errorStructure.setErrormessage(ex.getMessage());
-        errorStructure.setError("User detail not found");
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorStructure);
+    public ResponseEntity<ErrorStructure<String>> handleUserExistByEmail(UserExistByEmailException e)
+            {
+        ErrorStructure<String> errorStructure = ErrorStructure.<String>builder()
+                .type("User Exit")
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(e.getMessage())
+                .build();
+        return new ResponseEntity<>(errorStructure,HttpStatus.NOT_FOUND);
     }
 }

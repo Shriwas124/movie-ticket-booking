@@ -13,6 +13,7 @@ import com.example.mtb.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 
@@ -72,7 +73,19 @@ public class UserServiceImpl implements UserService {
         );
     }
 
+    @Override
+    public void softDelete(String email) {
+        UserDetails user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserDetailsNotFoundException("user not found" + email));
 
+        if (user.isDeleted()) {
+            throw new IllegalStateException("User is already deleted: ");
+        }
+
+        user.setDeleted(true);
+        user.setDeletedAt(Instant.now());
+        userRepository.save(user);
+    }
 
 
 }

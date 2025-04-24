@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -33,6 +34,13 @@ public class UserDetails {
     private long createdAt;
     private long updatedAt;
 
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
+
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt != null ? createdAt.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli() : null;
     }
@@ -40,5 +48,6 @@ public class UserDetails {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt != null ? updatedAt.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli() : null;
     }
+
 
 }

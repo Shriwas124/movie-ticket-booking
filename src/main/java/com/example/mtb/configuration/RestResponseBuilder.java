@@ -32,4 +32,15 @@ public class RestResponseBuilder {
                 .build();
         return ResponseEntity.ok(responseStructure);
     }
+
+
+    public static <T> ResponseEntity<ResponseStructure<T>> ok(String message, T data, int value) {
+        ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
+                .status(HttpStatus.OK.value())
+                .message(message)
+                .data(data)
+                .build();
+        return ResponseEntity.ok(responseStructure);
+    }
 }
+
