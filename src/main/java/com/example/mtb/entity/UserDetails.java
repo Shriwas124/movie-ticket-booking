@@ -8,7 +8,10 @@ import lombok.Setter;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import static com.example.mtb.enums.UserRoles.THEATER_OWNER;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @Entity
@@ -28,6 +31,15 @@ public class UserDetails  {
     private LocalDate dateofbirth;
     private  long createdAt;
     private long updatedAt;
+    @Column(name="is_deleted")
+    private boolean isDeleted=false;
+    @Column(name ="deleted_at")
+    private Instant deleteAt;
 
+    public void softDelete(){
+
+        this.isDeleted=true;
+        this.deleteAt=Instant.now();
+    }
 
 }
