@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
+
 public record UserRegisterRequest(
        @NotNull
         String username,

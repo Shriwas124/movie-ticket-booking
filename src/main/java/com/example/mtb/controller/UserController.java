@@ -31,4 +31,10 @@ public class UserController {
         return  RestResponseBuilder.update(HttpStatus.OK,"user object updated",update);
 
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseStructure<String>> deleteuser(@Valid @RequestParam String email){
+        userService.softDelete(email);
+        return  RestResponseBuilder.delete(HttpStatus.OK,"user object deleted",null);
+    }
 }
