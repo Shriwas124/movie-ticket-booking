@@ -25,15 +25,15 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseStructure<UserRegisterResponse>> updating(@Valid @RequestBody String email,UserRequest request){
-        UserRegisterResponse update = userService.updating(request,email);
+    public ResponseEntity<ResponseStructure<UserRegisterResponse>> updating(@Valid @RequestParam String email,@RequestBody UserRequest request){
+        UserRegisterResponse update = userService.updating( email,request);
         return RestResponseBuilder.update("User profile updated successfully",update,200);
 
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteuser(@Valid @RequestParam String email){
+    public ResponseEntity<ResponseStructure<String>> deleteuser(@Valid @RequestParam String email){
         userService.softDelete(email);
-        return ResponseEntity.ok("User account deleted successfully (soft delete).");
+        return RestResponseBuilder.ok("User account deleted successfully (soft delete).", null, 204);
     }
 }

@@ -5,5 +5,5 @@ import com.example.mtb.dto.response.TheaterResponse;
 import jakarta.validation.Valid;
 
 public interface TheaterService {
-    TheaterResponse addTheater(String email, @Valid TheaterRegisterRequest theaterRegisterRequest);
+    TheaterResponse addTheater(@Valid String email, @Valid TheaterRegisterRequest theaterRegisterRequest);
 }

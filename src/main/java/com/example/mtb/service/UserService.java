@@ -14,7 +14,7 @@ public interface UserService {
 
     UserRegisterResponse addUserDetails(UserRegisterRequest userDetails);
 
-    UserRegisterResponse updating(@Valid UserRequest request, String email);
+    UserRegisterResponse updating( String email,UserRequest request);
 
     void softDelete(@Valid String email);
 }

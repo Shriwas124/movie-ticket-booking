@@ -5,22 +5,26 @@ import jakarta.validation.constraints.Size;
 
 public record TheaterRegisterRequest (
 
-    @NotNull(message = "Name is required")
-    @Size(min = 1, max = 20, message = "Name cannot be blank")
-    String name,
 
-    @NotNull(message = "Address is required")
-    @Size(min = 1, max = 50, message = "Address cannot be blank")
-    String address,
 
-    @NotNull(message = "City is required")
-    @Size(min = 1, max = 20, message = "City cannot be blank")
-    String city,
+//        @NotNull(message = "Theater name cannot be null")
+//        @NotBlank(message = "Theater name cannot be blank")
+        String name,
 
-    @NotNull(message = "Landmark is required")
-    @Size(min = 1, max = 20, message = "Landmark cannot be blank")
-    String landmark
-)
-    {}
+//        @NotNull(message = "Address cannot be null")
+//        @NotBlank(message = "Address cannot be blank")
+        String address,
+
+//        @NotNull(message = "City cannot be null")
+//        @NotBlank(message = "City cannot be blank")
+        String city,
+
+//        @NotNull(message = "Landmark cannot be null")
+//        @NotBlank(message = "Landmark cannot be blank")
+        String landmark
+) {
+}
+
+
 
 

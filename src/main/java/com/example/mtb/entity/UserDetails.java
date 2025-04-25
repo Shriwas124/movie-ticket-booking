@@ -30,7 +30,6 @@ public class UserDetails {
     @Enumerated(value = EnumType.STRING)
     @NotNull
     private UserRoles userRoles;
-    @Enumerated(value = EnumType.STRING)
     private LocalDate dateofbirth;
     private long createdAt;
     private long updatedAt;

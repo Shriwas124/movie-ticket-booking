@@ -1,19 +1,21 @@
 package com.example.mtb.configuration;
 
 import com.example.mtb.utility.ResponseStructure;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+
 public class RestResponseBuilder {
 
-    public static <T> ResponseEntity<ResponseStructure<T>> success(HttpStatus status, String message, T data) {
-        ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
-                .status(status.value())
-                .message(message)
-                .data(data)
-                .build();
-        return ResponseEntity.status(status).body(responseStructure);
-    }
+//    public static <T> ResponseEntity<ResponseStructure<T>> success(HttpStatus status, String message, T data) {
+//        ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
+//                .status(status.value())
+//                .message(message)
+//                .data(data)
+//                .build();
+//        return ResponseEntity.status(status).body(responseStructure);
+//    }
 
     public static <T> ResponseEntity<ResponseStructure<T>> create(String message, T data, int statusCode) {
         ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
@@ -42,6 +44,8 @@ public class RestResponseBuilder {
                 .build();
         return ResponseEntity.ok(responseStructure);
     }
+
+
 
     public <T> ResponseEntity<ResponseStructure<T>> sucess(HttpStatus statusCode, String message, T data) {
         return ResponseEntity.status(statusCode).body(ResponseStructure.<T>builder()

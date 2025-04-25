@@ -54,9 +54,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserRegisterResponse updating(UserRequest request, String email) {
+    public UserRegisterResponse updating( String email,UserRequest request) {
         UserDetails user =  userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserDetailsNotFoundException("user not found"+email));
+                .orElseThrow(() -> new UserDetailsNotFoundException("user not found"));
 
         user.setUsername(request.username());
         user.setPhoneNumber(request.phoneNumber());

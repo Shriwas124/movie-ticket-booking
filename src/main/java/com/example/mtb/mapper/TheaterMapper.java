@@ -11,7 +11,6 @@ public class TheaterMapper {
         if (theater == null)
             return null;
         return new TheaterResponse(
-                theater.getTheaterId(),
                 theater.getName(),
                 theater.getAddress(),
                 theater.getCity(),
