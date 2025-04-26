@@ -2,6 +2,7 @@ package com.example.mtb.entity;
 
 import com.example.mtb.enums.UserRoles;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,18 +18,18 @@ import java.time.LocalDateTime;
 @Inheritance(strategy = InheritanceType.JOINED)
 @ToString
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String userId;
+
     private String username;
     private String email;
     private String password;
+
     private String phoneNumber;
 
     @Enumerated(value = EnumType.STRING)
-    @NotNull
     private UserRoles userRoles;
     private LocalDate dateofbirth;
     private long createdAt;

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class UserExistByEmailException extends  RuntimeException{
     private String message;
 

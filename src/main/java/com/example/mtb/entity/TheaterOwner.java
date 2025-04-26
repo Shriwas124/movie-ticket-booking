@@ -7,8 +7,9 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-@Table(name = "theater_owner")
+
 @NoArgsConstructor
+@Table(name = "theater_owner")
 @Setter
 @Getter
 @Entity
@@ -16,7 +17,8 @@ public class TheaterOwner extends UserDetails {
 
 
 
-    @OneToMany(mappedBy = "theaterOwner")
-    private List<Theater> theaters;
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Theater> theaters = new ArrayList<>();
 
 }

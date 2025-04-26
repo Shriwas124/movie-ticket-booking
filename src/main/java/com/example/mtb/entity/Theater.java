@@ -9,14 +9,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-@EntityListeners(AuditingEntityListener.class)
 @Setter
 @Getter
 @ToString
 @Entity
 public class Theater {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String theaterId;
@@ -28,16 +25,12 @@ public class Theater {
     private String city;
     @Column(nullable = false)
     private String landmark;
-
-    @ManyToOne
-    private TheaterOwner theaterOwner;
-
     private long createdAt;
-    @LastModifiedDate
     private long updatedAt;
     private String createdBy;
-
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_owner_id", nullable = false)
+    private TheaterOwner owner;
 }
 
 
