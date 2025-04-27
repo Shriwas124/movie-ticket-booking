@@ -9,6 +9,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.List;
+
 @Setter
 @Getter
 @ToString
@@ -31,6 +33,9 @@ public class Theater {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theater_owner_id", nullable = false)
     private TheaterOwner owner;
+
+    @OneToMany(mappedBy = "theater")
+    private List<Screen> screen;
 }
 
 
