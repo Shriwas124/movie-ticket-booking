@@ -11,6 +11,7 @@ import com.example.mtb.exception.UserExistByEmailException;
 import com.example.mtb.repository.UserRepository;
 import com.example.mtb.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -22,6 +23,9 @@ import java.time.LocalDateTime;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+
     @Override
     public UserRegisterResponse addUserDetails(UserRegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
@@ -45,7 +49,7 @@ public class UserServiceImpl implements UserService {
         target.setUserRoles(source.userRole());
         target.setUsername(source.username());
         target.setEmail(source.email());
-        target.setPassword(source.password());
+        target.setPassword(passwordEncoder.encode(source.password()));
         target.setPhoneNumber(source.phoneNumber());
         target.setDateofbirth(source.dateOfBirth());
         return userRepository.save(target);
@@ -61,7 +65,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(request.username());
         user.setPhoneNumber(request.phoneNumber());
         user.setDateofbirth(request.dateofBirth());
-        user.setUpdatedAt(LocalDateTime.now());
+        user.setUpdatedAt(Instant.ofEpochMilli(System.currentTimeMillis()));
 
         userRepository.save(user);
 

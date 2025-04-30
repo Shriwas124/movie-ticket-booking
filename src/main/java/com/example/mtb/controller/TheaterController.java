@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class TheaterController {
     private final TheaterServiceImpl theaterService;
 
+    @PreAuthorize("hasAuthority('ROLE_THEATER_OWNER')") //only theater owner will add the thaeter
     @PostMapping("/create")
     public ResponseEntity<ResponseStructure<TheaterResponse>> addTheater(@RequestBody TheaterRequest theaterRequest, @Valid @RequestParam String email){
         TheaterResponse createtheater = theaterService.addTheater(email, theaterRequest);
@@ -28,6 +30,7 @@ public class TheaterController {
         return RestResponseBuilder.ok("find the id",findTheater,201);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_THEATER_OWNER')")//only theaterowner having the authority too...update
     @PutMapping("/theater/update")
     public ResponseEntity<ResponseStructure<TheaterResponse>> updateTheater(@Valid @RequestParam String id, @RequestBody TheaterRequest theaterRequest){
         TheaterResponse updateTheater = theaterService.updateTheater(id,theaterRequest);

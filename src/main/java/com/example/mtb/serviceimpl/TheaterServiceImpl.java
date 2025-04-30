@@ -1,5 +1,6 @@
 package com.example.mtb.serviceimpl;
 
+import ch.qos.logback.core.status.InfoStatus;
 import com.example.mtb.dto.request.TheaterRequest;
 import com.example.mtb.dto.response.TheaterResponse;
 import com.example.mtb.entity.Theater;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +49,7 @@ public class TheaterServiceImpl implements TheaterService {
         newTheater.setAddress(theaterRequest.address());
         newTheater.setCity(theaterRequest.city());
         newTheater.setLandmark(theaterRequest.landmark());
-        newTheater.setCreatedAt(System.currentTimeMillis());
+       // newTheater.setCreatedAt(System.currentTimeMillis());
         newTheater.setOwner(theaterOwner);
 
         theaterRepository.save(newTheater);
@@ -87,7 +89,7 @@ public class TheaterServiceImpl implements TheaterService {
         existingTheater.setAddress(updatedtheater.address());
         existingTheater.setCity(updatedtheater.city());
         existingTheater.setLandmark(updatedtheater.landmark());
-        existingTheater.setUpdatedAt(System.currentTimeMillis());
+        existingTheater.setUpdatedAt(Instant.ofEpochMilli(System.currentTimeMillis()));
 
         // Save the updated theater back to the repository
         theaterRepository.save(existingTheater);
