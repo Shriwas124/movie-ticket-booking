@@ -1,6 +1,7 @@
 package com.example.mtb.entity;
 
 import com.example.mtb.enums.ScreenType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -50,6 +52,12 @@ public class Screen {
 
     @OneToMany(mappedBy = "screen",fetch = FetchType.EAGER)
     private List<Seat> seat = new ArrayList<>();
+
+
+
+    @OneToMany(mappedBy = "screen", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Show> shows;
 
 }
 

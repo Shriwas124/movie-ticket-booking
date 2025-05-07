@@ -8,27 +8,26 @@ import com.example.mtb.entity.User;
 import com.example.mtb.entity.UserDetails;
 import com.example.mtb.exception.UserDetailsNotFoundException;
 import com.example.mtb.exception.UserExistByEmailException;
-import com.example.mtb.repository.UserRepository;
+import com.example.mtb.repository.UserDetailsRepository;
 import com.example.mtb.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 
 @AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
     private final PasswordEncoder passwordEncoder;
 
 
     @Override
     public UserRegisterResponse addUserDetails(UserRegisterRequest request) {
-        if (userRepository.existsByEmail(request.email())) {
+        if (userDetailsRepository.existsByEmail(request.email())) {
             throw new UserExistByEmailException("User with Email already exists");
         }
 
@@ -52,14 +51,14 @@ public class UserServiceImpl implements UserService {
         target.setPassword(passwordEncoder.encode(source.password()));
         target.setPhoneNumber(source.phoneNumber());
         target.setDateofbirth(source.dateOfBirth());
-        return userRepository.save(target);
+        return userDetailsRepository.save(target);
     }
 
 
 
     @Override
     public UserRegisterResponse updating( String email,UserRequest request) {
-        UserDetails user =  userRepository.findByEmail(email)
+        UserDetails user =  userDetailsRepository.findByEmail(email)
                 .orElseThrow(() -> new UserDetailsNotFoundException("user not found"));
 
         user.setUsername(request.username());
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
         user.setDateofbirth(request.dateofBirth());
         user.setUpdatedAt(Instant.ofEpochMilli(System.currentTimeMillis()));
 
-        userRepository.save(user);
+        userDetailsRepository.save(user);
 
         return new UserRegisterResponse(
                 user.getUserId(),
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void softDelete(String email) {
-        UserDetails user = userRepository.findByEmail(email)
+        UserDetails user = userDetailsRepository.findByEmail(email)
                 .orElseThrow(() -> new UserDetailsNotFoundException("user not found" + email));
 
         if (user.isDeleted()) {
@@ -88,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
         user.setDeleted(true);
         user.setDeletedAt(Instant.now());
-        userRepository.save(user);
+        userDetailsRepository.save(user);
     }
 
 

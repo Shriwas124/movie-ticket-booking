@@ -8,14 +8,14 @@ import org.springframework.http.ResponseEntity;
 
 public class RestResponseBuilder {
 
-//    public static <T> ResponseEntity<ResponseStructure<T>> success(HttpStatus status, String message, T data) {
-//        ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
-//                .status(status.value())
-//                .message(message)
-//                .data(data)
-//                .build();
-//        return ResponseEntity.status(status).body(responseStructure);
-//    }
+    public static <T> ResponseEntity<ResponseStructure<T>> success(HttpStatus status, String message, T data) {
+        ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
+                .status(status.value())
+                .message(message)
+                .data(data)
+                .build();
+        return ResponseEntity.status(status).body(responseStructure);
+    }
 
     public static <T> ResponseEntity<ResponseStructure<T>> create(String message, T data, int statusCode) {
         ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()

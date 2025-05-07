@@ -1,9 +1,6 @@
 package com.example.mtb.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -17,18 +14,39 @@ import java.time.Instant;
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "movie_show")
 public class Show {
+
+
     @Id
-    private  String showId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "show_id")
+    private String showId;
+
+    @Column(name = "starts_at")
     private Instant startsAt;
+
+    @Column(name = "ends_at")
     private Instant endsAt;
-    @Column(name = "created_At", nullable = false, updatable = false)
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "screen_id")
+    private Screen screen;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
     @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
-    @Column(name = "updated_At", nullable = false)
+
     @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
-    @Column(name = "created_By", nullable = false, updatable = false)
+
     @CreatedBy
+    @Column(name = "created_by")
     private String createdBy;
 }

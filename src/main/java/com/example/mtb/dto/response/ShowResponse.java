@@ -1,4 +1,11 @@
 package com.example.mtb.dto.response;
 
-public record ShowResponse() {
+import java.time.Instant;
+
+public record ShowResponse(
+
+        String showId,
+        Instant startsAt,
+        Instant endsAt
+) {
 }

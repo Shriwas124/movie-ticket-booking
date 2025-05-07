@@ -1,6 +1,5 @@
 package com.example.mtb.serviceimpl;
 
-import ch.qos.logback.core.status.InfoStatus;
 import com.example.mtb.dto.request.TheaterRequest;
 import com.example.mtb.dto.response.TheaterResponse;
 import com.example.mtb.entity.Theater;
@@ -11,28 +10,25 @@ import com.example.mtb.exception.TheaterOwnerIdException;
 import com.example.mtb.exception.UserNotFoundByEmailException;
 import com.example.mtb.repository.TheaterOwnerRepos;
 import com.example.mtb.repository.TheaterRepository;
-import com.example.mtb.repository.UserRepository;
+import com.example.mtb.repository.UserDetailsRepository;
 import com.example.mtb.service.TheaterService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
 @AllArgsConstructor
 @Service
 public class TheaterServiceImpl implements TheaterService {
-    private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
     private final TheaterRepository theaterRepository;
     private final TheaterOwnerRepos theaterOwnerRepos;
 
     @Override
     public TheaterResponse addTheater(String email, TheaterRequest theaterRequest) {
-        Optional<UserDetails> optionalUserDetails = userRepository.findByEmail(email);
+        Optional<UserDetails> optionalUserDetails = userDetailsRepository.findByEmail(email);
         if (optionalUserDetails.isEmpty()) {
             throw new UserNotFoundByEmailException("User not found with email: " + email);
         }
