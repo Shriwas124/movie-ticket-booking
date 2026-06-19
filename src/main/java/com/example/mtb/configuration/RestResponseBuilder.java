@@ -54,5 +54,17 @@ public class RestResponseBuilder {
                 .data(data)
                 .build());
     }
+    public static <T> ResponseEntity<ResponseStructure<T>> delete(
+            @NotNull HttpStatus status, String message, T data) {
+
+        ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
+                .status(status.value())
+                .message(message)
+                .data(data)
+                .build();
+
+        return ResponseEntity.status(status).body(responseStructure);
+
+}
 
 }

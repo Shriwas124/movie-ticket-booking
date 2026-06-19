@@ -78,19 +78,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void softDelete(String email) {
-        UserDetails user = userDetailsRepository.findByEmail(email)
+        UserDetails user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserDetailsNotFoundException("user not found" + email));
 
         if (user.isDeleted()) {
-            throw new IllegalStateException("User is already deleted: ");
+            throw new IllegalStateException("User is already deleted: " + email);
         }
 
         user.setDeleted(true);
-        user.setDeletedAt(Instant.now());
-        userDetailsRepository.save(user);
+        userRepository.save(user);
     }
-
-
 }
 
 

@@ -35,22 +35,17 @@ public class UserDetails {
     @Enumerated(value = EnumType.STRING)
     private UserRoles userRoles;
     private LocalDate dateofbirth;
+    private  long createdAt;
+    private long updatedAt;
+    @Column(name="is_deleted")
+    private boolean isDeleted=false;
+    @Column(name ="deleted_at")
+    private Instant deleteAt;
 
-    @Column(name = "created_At", nullable = false, updatable = false)
-    @CreatedDate
-    private Instant createdAt;
-    @Column(name = "updated_At", nullable = false)
-    @LastModifiedDate
-    private Instant updatedAt;
+    public void softDelete(){
 
-
-    @Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
-    private boolean isDeleted = false;
-    @Column(name = "deleted_at", nullable = true)
-    private Instant deletedAt;
-
-
-
-
+        this.isDeleted=true;
+        this.deleteAt=Instant.now();
+    }
 
 }

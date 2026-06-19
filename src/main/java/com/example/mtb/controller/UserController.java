@@ -38,4 +38,10 @@ public class UserController {
         userService.softDelete(email);
         return RestResponseBuilder.ok("User account deleted successfully (soft delete).", null, 204);
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseStructure<String>> deleteuser(@Valid @RequestParam String email){
+        userService.softDelete(email);
+        return  RestResponseBuilder.delete(HttpStatus.OK,"user object deleted",null);
+    }
 }
