@@ -10,26 +10,33 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/register")
 @AllArgsConstructor
 public class UserController {
 
     private final UserServiceImpl userService;
 
-    @PostMapping("/user")
+
+    @PostMapping("/register")
     public ResponseEntity<ResponseStructure<UserRegisterResponse>> addUserDetails( @Valid @RequestBody UserRegisterRequest userDetails) {
         UserRegisterResponse savedUser = userService.addUserDetails(userDetails);
-        return  RestResponseBuilder.create(HttpStatus.CREATED ,"user object created",savedUser );
+         return RestResponseBuilder.create("UserDetail Created", savedUser, 201);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseStructure<UserRegisterResponse>> updating(@Valid @RequestBody UserRequest request, String email){
-        UserRegisterResponse update = userService.updating(request,email);
-        return  RestResponseBuilder.update(HttpStatus.OK,"user object updated",update);
+    public ResponseEntity<ResponseStructure<UserRegisterResponse>> updating(@Valid @RequestParam String email,@RequestBody UserRequest request){
+        UserRegisterResponse update = userService.updating( email,request);
+        return RestResponseBuilder.update("User profile updated successfully",update,200);
 
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseStructure<String>> deleteuser(@Valid @RequestParam String email){
+        userService.softDelete(email);
+        return RestResponseBuilder.ok("User account deleted successfully (soft delete).", null, 204);
     }
 
     @DeleteMapping("/delete")

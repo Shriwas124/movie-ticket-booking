@@ -1,53 +1,58 @@
 package com.example.mtb.configuration;
 
-
 import com.example.mtb.utility.ResponseStructure;
-import jakarta.validation.constraints.NotNull;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
 
-
-@Component
 public class RestResponseBuilder {
 
-    public <T> ResponseEntity<ResponseStructure<T>> success(
-            @NotNull HttpStatus status, String message, T data) {
-
+    public static <T> ResponseEntity<ResponseStructure<T>> success(HttpStatus status, String message, T data) {
         ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
                 .status(status.value())
                 .message(message)
                 .data(data)
                 .build();
-
         return ResponseEntity.status(status).body(responseStructure);
     }
 
-    public static <T> ResponseEntity<ResponseStructure<T>> create(
-            @NotNull HttpStatus status, String message, T data) {
-
+    public static <T> ResponseEntity<ResponseStructure<T>> create(String message, T data, int statusCode) {
         ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
-                .status(status.value())
+                .status(statusCode)
                 .message(message)
                 .data(data)
                 .build();
-
-        return ResponseEntity.status(status).body(responseStructure);
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseStructure);
     }
 
-    public static <T> ResponseEntity<ResponseStructure<T>> update(
-            @NotNull HttpStatus status, String message, T data) {
-
+    public static <T> ResponseEntity<ResponseStructure<T>> update(String message, T data, int value) {
         ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
-                .status(status.value())
+                .status(HttpStatus.OK.value())
                 .message(message)
                 .data(data)
                 .build();
+        return ResponseEntity.ok(responseStructure);
+    }
 
-        return ResponseEntity.status(status).body(responseStructure);
 
+    public static <T> ResponseEntity<ResponseStructure<T>> ok(String message, T data, int value) {
+        ResponseStructure<T> responseStructure = ResponseStructure.<T>builder()
+                .status(HttpStatus.OK.value())
+                .message(message)
+                .data(data)
+                .build();
+        return ResponseEntity.ok(responseStructure);
+    }
+
+
+
+    public <T> ResponseEntity<ResponseStructure<T>> sucess(HttpStatus statusCode, String message, T data) {
+        return ResponseEntity.status(statusCode).body(ResponseStructure.<T>builder()
+                .status(statusCode.value())
+                .message(message)
+                .data(data)
+                .build());
     }
     public static <T> ResponseEntity<ResponseStructure<T>> delete(
             @NotNull HttpStatus status, String message, T data) {
@@ -62,3 +67,4 @@ public class RestResponseBuilder {
 
 }
 
+}

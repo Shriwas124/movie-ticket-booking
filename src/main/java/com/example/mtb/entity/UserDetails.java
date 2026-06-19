@@ -2,11 +2,14 @@ package com.example.mtb.entity;
 
 import com.example.mtb.enums.UserRoles;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.web.WebProperties;
-import static com.example.mtb.enums.UserRoles.THEATER_OWNER;
+import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -14,19 +17,22 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-@Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class UserDetails  {
+@ToString
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String userId;
-    private  String username;
-    private  String email;
+
+    private String username;
+    private String email;
     private String password;
+
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
+    @Enumerated(value = EnumType.STRING)
     private UserRoles userRoles;
     private LocalDate dateofbirth;
     private  long createdAt;
